@@ -15,5 +15,4 @@ const resHandler = (req, res, next) => {
     // res.sendFile(path.join(__dirname, 'my-page.html'));
 };
 
-// module.exports = resHandler;
 export default resHandler;
