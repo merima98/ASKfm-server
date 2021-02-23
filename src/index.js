@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 
 import authRoutes from "./components/auth/authRoutes.js";
+import questionRoutes from "./components/questions/questionRoutes.js";
 
 dotenv.config();
 
@@ -16,5 +17,6 @@ app.use(cors());
 
 app.use(express.json());
 app.use(authRoutes);
+app.use(questionRoutes);
 
 app.listen(PORT);

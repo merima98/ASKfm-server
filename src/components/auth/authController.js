@@ -34,7 +34,7 @@ async function signup(req, res) {
   } catch (err) {}
 }
 
-async function signin(req, res) {
+async function signin(req, res) { 
   let user = await userDAL.findOne({
     where: { username: req.body.username },
   });

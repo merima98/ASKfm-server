@@ -16,3 +16,28 @@ model User {
   username String @unique
   password String
 }
+
+model Questions {
+  id       Int    @id @default(autoincrement())
+  content  String
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int   
+  likes       Likes[]
+  answers     Answer[]
+}
+
+model Answer {
+  id     Int  @id @default(autoincrement())
+  content  String
+  createdAt   DateTime @default(now())
+  question   Questions @relation(fields: [questionId], references: [id])
+  questionId Int 
+}
+
+model Likes {
+  id     Int  @id @default(autoincrement())
+  question   Questions @relation(fields: [questionId], references: [id])
+  questionId Int
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+}
