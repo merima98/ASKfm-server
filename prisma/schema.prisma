@@ -11,33 +11,47 @@ generator client {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
-  username String @unique
-  password String
+  id        Int         @id @default(autoincrement())
+  email     String      @unique
+  username  String      @unique
+  password  String
+  Questions Questions[]
+  Likes     Likes[]
+  // Dislikes  Dislikes[]
+  Dislikes  Dislikes[]
 }
 
 model Questions {
-  id       Int    @id @default(autoincrement())
+  id       Int        @id @default(autoincrement())
   content  String
-  user        User     @relation(fields: [userId], references: [id])
-  userId      Int   
-  likes       Likes[]
-  answers     Answer[]
+  user     User       @relation(fields: [userId], references: [id])
+  userId   Int
+  likes    Likes[]
+  Answer   Answer[]
+  // Dislikes Dislikes[]
+  Dislikes Dislikes[]
 }
 
 model Answer {
-  id     Int  @id @default(autoincrement())
-  content  String
-  createdAt   DateTime @default(now())
+  id         Int       @id @default(autoincrement())
+  content    String
+  createdAt  DateTime  @default(now())
   question   Questions @relation(fields: [questionId], references: [id])
-  questionId Int 
+  questionId Int
 }
 
 model Likes {
-  id     Int  @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
   question   Questions @relation(fields: [questionId], references: [id])
   questionId Int
-  user   User @relation(fields: [userId], references: [id])
-  userId Int
+  user       User      @relation(fields: [userId], references: [id])
+  userId     Int
+}
+
+model Dislikes {
+  id         Int       @id @default(autoincrement())
+  question   Questions @relation(fields: [questionId], references: [id])
+  questionId Int
+  user       User      @relation(fields: [userId], references: [id])
+  userId     Int
 }

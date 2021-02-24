@@ -7,5 +7,8 @@ async function create(values) {
   const question = await prisma.questions.create(values);
   return question;
 }
-
-export default { create };
+async function findAll(values) {
+  const questions = await prisma.questions.findMany(values);
+  return questions;
+}
+export default { create, findAll };
