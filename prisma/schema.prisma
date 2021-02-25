@@ -17,19 +17,18 @@ model User {
   password  String
   Questions Questions[]
   Likes     Likes[]
-  // Dislikes  Dislikes[]
   Dislikes  Dislikes[]
 }
 
 model Questions {
-  id       Int        @id @default(autoincrement())
-  content  String
-  user     User       @relation(fields: [userId], references: [id])
-  userId   Int
-  likes    Likes[]
-  Answer   Answer[]
-  // Dislikes Dislikes[]
-  Dislikes Dislikes[]
+  id        Int        @id @default(autoincrement())
+  content   String
+  user      User       @relation(fields: [userId], references: [id])
+  userId    Int
+  likes     Likes[]
+  Answer    Answer[]
+  Dislikes  Dislikes[]
+  createdAt DateTime   @default(now())
 }
 
 model Answer {
