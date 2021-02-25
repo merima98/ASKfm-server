@@ -15,9 +15,11 @@ model User {
   email     String      @unique
   username  String      @unique
   password  String
+  image     String      @default("https://images.unsplash.com/photo-1611606063065-ee7946f0787a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80")
   Questions Questions[]
   Likes     Likes[]
   Dislikes  Dislikes[]
+  Answer    Answer[]
 }
 
 model Questions {
@@ -37,6 +39,8 @@ model Answer {
   createdAt  DateTime  @default(now())
   question   Questions @relation(fields: [questionId], references: [id])
   questionId Int
+  user       User?     @relation(fields: [userId], references: [id])
+  userId     Int?
 }
 
 model Likes {

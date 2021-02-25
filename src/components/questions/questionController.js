@@ -1,4 +1,4 @@
-import questionDAL from "./questionDAL.js";
+import questionDAL from "./questionDAL.js"; 
 
 async function createQuestion(req, res) {
   try {
@@ -56,4 +56,50 @@ async function getQuestion(req, res) {
   } catch (err) {}
 }
 
-export default { createQuestion, getQuestion };
+async function getUserQuestion(req, res) {
+  try {
+    const userId = res.locals.userId;
+    const questions = await questionDAL.findAll({
+      orderBy: {
+        createdAt: "desc",
+      },
+      select: {
+        id: true,
+        content: true,
+        user: {
+          select: {
+            username: true,
+            email: true,
+          },
+        },
+        likes: {
+          include: {
+            user: true,
+            question: true,
+          },
+        },
+        Dislikes: {
+          include: {
+            user: true,
+            question: true,
+          },
+        },
+        Answer: {
+          where: {
+            userId: userId,
+          },
+          include: {
+            question: true,
+          },
+        },
+      },
+    });
+
+    if (questions === null) {
+      return res.status(400).send({ exception: "QuestionsNotFound" });
+    }
+    return res.status(200).send(questions);
+  } catch (err) {}
+}
+
+export default { createQuestion, getQuestion, getUserQuestion };

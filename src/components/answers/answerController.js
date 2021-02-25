@@ -3,10 +3,12 @@ import answerDAL from "./answerDAL.js";
 async function createAnswer(req, res) {
   try {
     const values = req.body;
+    const userId = res.locals.userId;
     const answer = await answerDAL.create({
       data: {
         content: values.content,
         questionId: values.questionId,
+        userId: userId,
       },
     });
     return res.status(200).send(answer);

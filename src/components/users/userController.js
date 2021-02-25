@@ -15,6 +15,7 @@ async function getUserById(req, res) {
     const response = {
       email: user.email,
       username: user.username,
+      image: user.image,
     };
     return res.status(200).send(response);
   } catch (err) {}
