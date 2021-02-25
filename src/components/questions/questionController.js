@@ -15,8 +15,11 @@ async function createQuestion(req, res) {
 }
 
 async function getQuestion(req, res) {
-  try { 
+  try {
     const questions = await questionDAL.findAll({
+      orderBy: {
+        createdAt: "desc",
+      },
       select: {
         id: true,
         content: true,

@@ -8,4 +8,9 @@ async function create(values) {
   return answer;
 }
 
-export default { create };
+async function findAll(values) {
+  const answers = await prisma.answer.findMany(values);
+  return answers;
+}
+
+export default { create, findAll };

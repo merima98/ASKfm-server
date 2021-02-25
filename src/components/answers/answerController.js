@@ -13,4 +13,19 @@ async function createAnswer(req, res) {
   } catch (err) {}
 }
 
-export default { createAnswer };
+async function getAnswers(req, res) {
+  const questionId = req.query.questionId;
+  const answers = await answerDAL.findAll({
+    orderBy: {
+      createdAt: "desc",
+    },
+    where: { questionId: parseInt(questionId) },
+  });
+
+  if (answers === null) {
+    return res.status(400).send({ exception: "AnswersNotFound" });
+  }
+  return res.status(200).send(answers);
+}
+
+export default { createAnswer, getAnswers };
