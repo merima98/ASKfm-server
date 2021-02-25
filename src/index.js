@@ -7,6 +7,7 @@ import questionRoutes from "./components/questions/questionRoutes.js";
 import answerRoutes from "./components/answers/answerRoutes.js";
 import likesRoutes from "./components/likes/likesRoutes.js";
 import dislikesRoutes from "./components/dislikes/dislikesRoutes.js";
+import userRoutes from "./components/users/userRoutes.js";
 
 dotenv.config();
 
@@ -24,5 +25,6 @@ app.use(questionRoutes);
 app.use(answerRoutes);
 app.use(likesRoutes);
 app.use(dislikesRoutes);
+app.use(userRoutes);
 
 app.listen(PORT);
