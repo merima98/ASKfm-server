@@ -1,4 +1,4 @@
-import questionDAL from "./questionDAL.js"; 
+import questionDAL from "./questionDAL.js";
 
 async function createQuestion(req, res) {
   try {

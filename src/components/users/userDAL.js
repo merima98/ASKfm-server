@@ -11,5 +11,9 @@ async function findOne(options) {
   const user = await prisma.user.findFirst(options);
   return user;
 }
+async function updateUser(options) {
+  const user = await prisma.user.update(options);
+  return user;
+}
 
-export default { create, findOne };
+export default { create, findOne, updateUser };
