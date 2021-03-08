@@ -101,5 +101,54 @@ async function getUserQuestion(req, res) {
     return res.status(200).send(questions);
   } catch (err) {}
 }
-
-export default { createQuestion, getQuestion, getUserQuestion };
+async function rateQuestion(req, res) {
+  try {
+    const questionId = 3;
+    const question = await questionDAL.findOne({
+      where: {
+        id: questionId,
+      },
+    });
+    if (question !== null) {
+      question.totalHearts += 1;
+      const args = {
+        select: {
+          id: true,
+          content: true,
+          totalHearts: true,
+          user: {
+            select: {
+              username: true,
+              email: true,
+            },
+          },
+          likes: {
+            include: {
+              user: true,
+              question: true,
+            },
+          },
+          Dislikes: {
+            include: {
+              user: true,
+              question: true,
+            },
+          },
+          Answer: {
+            include: {
+              question: true,
+            },
+          },
+        },
+        where: {
+          id: questionId,
+        },
+        data: { ...question },
+      };
+      const updatedQuestion = await questionDAL.patchQuestion(args);
+      return res.status(200).send(updatedQuestion);
+    }
+    return res.status(500).send({ exception: "QuestionNotFound" });
+  } catch (err) {}
+}
+export default { createQuestion, getQuestion, getUserQuestion, rateQuestion };
