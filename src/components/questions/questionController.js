@@ -1,4 +1,14 @@
 import questionDAL from "./questionDAL.js";
+import dotenv from "dotenv";
+
+import stripe from "stripe";
+import { v4 } from "uuid";
+
+dotenv.config();
+
+const { STRIPE_SECRET_KEY } = process.env;
+
+const publishKey = new stripe(STRIPE_SECRET_KEY);
 
 async function createQuestion(req, res) {
   try {
@@ -172,10 +182,35 @@ async function rateQuestion(req, res) {
     return res.status(500).send({ exception: "QuestionNotFound" });
   } catch (err) {}
 }
+
+async function payment(req, res) {
+  try {
+    const { question, token } = req.body;
+    const idempontencyKey = v4();
+
+    const customer = await publishKey.customers.create({
+      email: token.email,
+      source: token.id,
+    });
+
+    const result = await publishKey.charges.create(
+      {
+        amount: question.price * 100,
+        currency: "usd",
+        customer: customer.id,
+        receipt_email: token.email,
+        description: `purchase of ${question.name}`,
+      },
+      { idempontencyKey }
+    );
+    await res.status(200).json(result);
+  } catch (err) {}
+}
 export default {
   createQuestion,
   getQuestion,
   getUserQuestion,
   rateQuestion,
   getHotestQuestion,
+  payment,
 };
